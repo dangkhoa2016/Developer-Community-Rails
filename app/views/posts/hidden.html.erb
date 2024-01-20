@@ -1,0 +1,13 @@
+<div class="col-lg-10 mx-auto mt-3">
+  <% if @hidden_posts.present? %>
+    <h3>Hidden Posts</h3>
+    <% @hidden_posts.each do |post| %>
+      <div class="card shadow mb-2">
+        <%= render "posts/hidden", post: post %>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="border border-1 rounded p-2">No Hidden post is present!</p>
+  <% end %>
+</div>
+

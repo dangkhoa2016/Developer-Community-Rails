@@ -1,0 +1,59 @@
+<%= link_to "Change your password", edit_password_path, id: "change-password-form", data: { controller: 'bs-modal-form' }, style: 'text-decoration:none;', class: 'btn btn-outline-primary mb-3' %>
+
+<div class="card mb-5" id="member-personal-details">
+  <div class="row">
+    <div class="col-lg-4">
+      <% if user.image.attached? %>
+        <%= image_tag user.image, style: "width: 50%; max-width:100%; max-height:100%; height:auto" %>
+      <% end %>
+    </div>
+    <div class="col-lg-8">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-10">
+            <div class="d-flex justify-content-start">
+              <h3 class="fw-bold"><%= user.name %></h3>
+            </div>
+          </div>
+          <% if user == current_user %>
+          <div class="col-lg-2">
+            <div class="d-flex justify-content-end">
+              <%= link_to edit_member_personal_details_path, class: "edit-profile", data: { controller: "bs-modal-form" } do %>
+              <i class="fa-solid fa-pencil m-3"></i>
+              <% end %>
+            </div>
+          </div>
+          <% end %>
+        </div>
+        <p><%= user.profile_title %></p>
+        <p><%= user.address %></p>
+        
+        <div id="user-connection-status" >
+            <% if current_user.check_if_already_connected?(user) %>
+              <%= link_to "Connect", connections_path, class: "btn btn-primary", data: { controller: "connections", turbo_method: :post, connections_target: "connection", requester_id: current_user.id, connected_id: user.id } %>
+              <% elsif get_connection_status(user) == "pending" %>
+                <%= render "connections/create", connector: user %>
+              <% elsif get_connection_status(user) == "accepted" %>
+                <button type="button" class="btn btn-success" >Accepted</button>
+              <% elsif get_connection_status(user) == "rejected" %>
+                <button type="button" class="btn btn-danger">Rejected</button>
+            <% end %>
+        </div>
+
+        <% if @connections.present? %>
+        <div id="connection-count">
+          <%= link_to pluralize(@connections.count, 'connection'), member_connections_path(user), style: "text-decoration:none;" %>
+        </div>
+        <% end %>
+
+        <% if current_user != @user && @mutual_connections.present? && @mutual_connections.count > 0 %>
+        <div id="mutual-connection-count">
+          <%= link_to pluralize(@mutual_connections.count, 'mutual connection'),member_connections_path(user, mutual_connection: true ), style: "text-decoration:none;" %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+

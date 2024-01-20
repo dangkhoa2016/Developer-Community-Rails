@@ -1,0 +1,10 @@
+<div class="container col-lg-10 mx-auto mt-3">
+  <% if @notifications.present? %>
+    <h3>Notifications</h3>
+    <ul class="list-group" id="notifications">
+      <%= render @notifications %>
+    </ul>
+  <% else %>
+    <p class="border border-1 rounded p-2">No notification is present!</p>
+  <% end %>
+</div>

@@ -1,0 +1,4 @@
+<p class="text-dark">
+  <%= notification.item.user.name %> just <b>liked : </b>
+  <%= link_to notification.item.post.title, post_path(notification.item.post), style: "text-decoration:none;" %>
+</p>
